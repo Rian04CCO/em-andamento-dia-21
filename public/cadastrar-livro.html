@@ -115,6 +115,12 @@
                                 <input name="precoVenda" id="precoVenda" maxlength="20" type="number"></input>
                             </label>
 
+                            <label>
+                                Quantidade em estoque:
+                                <br>
+                                <input name="qtdLivro" id="qtdLivro" maxlength="20" type="number"></input>
+                            </label>
+
 
                             <button>Cadastrar</button>
                         </form>
@@ -142,22 +148,37 @@
 
     function cadastrar() {
 
+        
         var corpo = {
             titulo: form_postagem.titulo.value,
             fkGenero: form_postagem.fkGenero_lista.value,
             fkAutor: form_postagem.fkAutor_lista.value,
             precoCompra: form_postagem.precoCompra.value,
-            precoVenda: form_postagem.precoVenda.value
+            precoVenda: form_postagem.precoVenda.value,
+            qtdLivro: form_postagem.qtdLivro.value
         }
 
-        if (corpo.precoCompra >= 100 && corpo.fkGenero == '1' || '2') {
-            corpo.precoVenda * 22.5 / 100
+        var compra = Number (corpo.precoCompra)
+        var venda = Number (corpo.precoVenda)
+        var genero = Number (corpo.fkGenero)
+        var valorFinal = 0
 
-        } else if (corpo.precoCompra <=50 && corpo.fkGenero == '3' || '2') {
-            corpo.precoVenda * 25 / 100
 
-        } else if (corpo.precoCompra > 50 &&  corpo.precoCompra < 100 && corpo.fkGenero == '4'){
-            corpo.precoVenda * 27.5 /100
+
+        if (compra >= 100 && genero == '1' || genero == '2') {
+            
+            valorFinal = (venda * 22.5) / 100
+            venda = venda + valorFinal
+
+        } else if (compra <=50 && genero == '3' || genero == '2') {
+            
+            valorFinal = (venda * 25) / 100
+            venda = venda + valorFinal
+
+        } else if (compra > 50 &&  compra < 100 && genero == '4'){
+            
+            valorFinal = (venda * 27.5) / 100
+            venda = venda + valorFinal
 
         }
 

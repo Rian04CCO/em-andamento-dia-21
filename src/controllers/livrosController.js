@@ -22,6 +22,7 @@ function cadastrar(req, res) {
     var fkAutor = req.body.fkAutor;
     var precoCompra = req.body.precoCompra;
     var precoVenda = req.body.precoVenda;
+    var qtdLivro = req.body.qtdLivro
 
     if (titulo == undefined) {
         res.status(400).send("O título está indefinido!");
@@ -34,7 +35,7 @@ function cadastrar(req, res) {
     } else if (fkGenero == undefined) {
         res.status(400).send("O gênero está indefinido!");
     } else {
-        livrosModel.cadastrar(titulo, fkAutor, fkGenero, precoCompra, precoVenda)
+        livrosModel.cadastrar(titulo, fkAutor, fkGenero, precoCompra, precoVenda, qtdLivro)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -89,9 +90,29 @@ function deletar(req, res) {
         );
 }
 
+function obterQuantidade(req, res) {
+    console.log("Controller: obterQuantidade()");
+
+    livrosModel.obterQuantidade()
+        .then(function (resultado) {
+            console.log("Resultado da busca:", resultado);
+
+            if (resultado.length > 0) {
+                res.status(200).json(resultado);
+            } else {
+                res.status(204).send("Nenhuma quantidade encontrada!");
+            }
+        })
+        .catch(function (erro) {
+            console.log("Erro no obterQuantidade:", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
 module.exports = {
     listar,
     cadastrar,
     editar,
-    deletar
+    deletar,
+    obterQuantidade
 }
