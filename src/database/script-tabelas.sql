@@ -26,3 +26,30 @@ CREATE TABLE livro (
     CONSTRAINT fk_livro_autor FOREIGN KEY (fkAutor) REFERENCES autor(id),
     CONSTRAINT fk_livro_genero FOREIGN KEY (fkGenero) REFERENCES genero(id)
 );
+
+
+select livro.Quantidade_de_livro_em_estoque,  count(*) as estoque,
+		genero.nome as Generos
+        from livro join genero on livro.fkGenero = genero.id
+        group by genero.nome;
+        
+select  livro.qtdLivro as disponiveis,
+        genero.nome as Categoria,
+        livro.titulo as Titulo
+        from livro join genero on livro.fkGenero = genero.id
+        order by genero.nome;
+			
+            
+select genero.nome as Genero,
+	count(*) as quantidade
+    from genero
+    group by nome;
+		
+        
+/* selecionar os autores mais caros com um join em autor e livros para pegar os preços de venda */
+
+select autor.nome as 'Auto da obra',
+		livro.precoVenda as 'Total de vendas'
+        from livro join autor on livro.fkAutor = autor.id 
+        order by livro.precoVenda desc
+        limit 3;
